@@ -73,5 +73,56 @@ $ ClusterJello -rootSection Vive
 ```
 
 ## Step 6: Fix prediction
-Config is in `$HOME/.config/Vrui-4.2/Vrui.cfg`. Search for `predict`.
+Config is in `$HOME/.config/Vrui-4.2/Vrui.cfg`.
+
+Copy the following into it below the `screenProtectorAreas` stuff:
+
+```
+		section DeviceDaemonAdapter
+			inputDeviceAdapterType DeviceDaemon
+			serverName localhost
+			serverPort 8555
+			inputDeviceNames (HMD, Controller1, Controller2)
+			predictMotion true
+			motionPredictionDelta 0.011
+			
+			section Controller1
+				deviceGlyphType Cone
+			endsection
+			
+			section Controller2
+				deviceGlyphType Cone
+			endsection
+		endsection
+
+		section HMDWindow
+			outputName HTC-VIVE
+			windowSize (2160, 1200)
+			decorate false
+			bypassCompositor true
+			vsync true
+			lowLatency true
+			useBackBuffer true
+			windowType SplitViewportStereo
+			leftViewportPos (0, 0), (1080, 1200)
+			rightViewportPos (1080, 0), (1080, 1200)
+			leftScreenName HMDLeftScreen
+			rightScreenName HMDRightScreen
+			viewerName HMDViewer
+			multisamplingLevel 16
+			lensCorrectorName LensCorrector
+			
+			section LensCorrector
+				# Adjust supersampling factor to tweak image quality
+				superSampling 1.0
+				
+				# Enable cubic filtering during image warping for potentially increased image quality
+				# warpCubicLookup true
+				
+				# Black smear correction; disable fixContrast to get true blacks(tm)
+				# oledCorrectionFactors (0.1, 0.05)
+				# fixContrast false
+			endsection
+		endsection
+```
 
